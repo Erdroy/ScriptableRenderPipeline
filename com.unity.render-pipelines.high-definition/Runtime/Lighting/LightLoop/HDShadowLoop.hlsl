@@ -103,12 +103,12 @@ void ShadowLoopMin(HDShadowContext shadowContext, PositionInputs posInput, float
                     s_lightData.shadowIndex >= 0 &&
                     s_lightData.shadowDimmer > 0)
                 {
+                    float shadowP;
                     float3 L;
                     float4 distances; // {d, d^2, 1/d, d_proj}
                     GetPunctualLightVectors(posInput.positionWS, s_lightData, L, distances);
                     float distToLight = (s_lightData.lightType == GPULIGHTTYPE_PROJECTOR_BOX) ? distances.w : distances.x;
                     float lightRadSqr = s_lightData.size.x;
-                    float shadowP;
                     if (distances.x < s_lightData.range &&
                         PunctualLightAttenuation(distances, s_lightData.rangeAttenuationScale, s_lightData.rangeAttenuationBias,
                                                             s_lightData.angleScale,            s_lightData.angleOffset) > 0.0 &&

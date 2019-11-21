@@ -172,11 +172,6 @@ namespace UnityEditor.Rendering.HighDefinition
                         {
                             m_Scale.value.vector2Value = new Vector2(m_Scale.value.vector2Value.x, m_Scale.value.vector2Value.x);
                         }
-                        else if (m_BackplateType.value.enumValueIndex == (uint)BackplateType.Ellipse &&
-                                 Mathf.Abs(m_Scale.value.vector2Value.x - m_Scale.value.vector2Value.y) < 1e-4f)
-                        {
-                            m_Scale.value.vector2Value = new Vector2(m_Scale.value.vector2Value.x, m_Scale.value.vector2Value.x + 1e-4f);
-                        }
                     }
                     PropertyField(m_ProjectionDistance, new GUIContent("Projection"));
                     PropertyField(m_PlateRotation, new GUIContent("Rotation"));

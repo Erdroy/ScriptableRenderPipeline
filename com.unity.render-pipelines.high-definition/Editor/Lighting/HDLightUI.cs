@@ -217,7 +217,7 @@ namespace UnityEditor.Rendering.HighDefinition
                             break;
                     }
                 }
-
+                
                 UpdateLightIntensityUnit(serialized, owner);
 
                 // For GI we need to detect any change on additional data and call SetLightDirty + For intensity we need to detect light shape change
@@ -351,7 +351,7 @@ namespace UnityEditor.Rendering.HighDefinition
                     EditorGUI.BeginChangeCheck();
                     Rect lineRect = GUILayoutUtility.GetRect(1f, EditorGUIUtility.singleLineHeight);
                     AreaLightShape updatedAreaLightShape;
-
+                    
                     //Partial support for prefab. There is no way to fully support it at the moment.
                     //Missing support on the Apply and Revert contextual menu on Label for Prefab overrides. They need to be done two times.
                     //(This will continue unless we have our own handling for Disc or remove AdditionalDatas)
@@ -576,7 +576,7 @@ namespace UnityEditor.Rendering.HighDefinition
                 case (HDLightType)(-1): // multiple different values
                     break;  // do nothing
             }
-
+            
             serialized.intensity.floatValue = intensity;
         }
 
@@ -734,7 +734,7 @@ namespace UnityEditor.Rendering.HighDefinition
 
             // The texture type is stored in the texture importer so we need to get it:
             TextureImporter texImporter = AssetImporter.GetAtPath(AssetDatabase.GetAssetPath(cookie)) as TextureImporter;
-
+            
             if (texImporter != null && texImporter.textureType == TextureImporterType.Cookie)
             {
                 using (new EditorGUILayout.HorizontalScope())
@@ -825,7 +825,7 @@ namespace UnityEditor.Rendering.HighDefinition
 
             return newShadowsEnabled;
         }
-
+        
         static void DrawShadowMapContent(SerializedHDLight serialized, Editor owner)
         {
             var hdrp = HDRenderPipeline.currentAsset;
@@ -904,7 +904,7 @@ namespace UnityEditor.Rendering.HighDefinition
                             EditorGUI.indentLevel--;
                         }
                     }
-
+                
                     // For the moment, we only support screen space rasterized shadows for directional lights
                     if (lightType == HDLightType.Directional)
                     {
@@ -1016,7 +1016,7 @@ namespace UnityEditor.Rendering.HighDefinition
                 HDAdditionalLightData.ScalableSettings.UseContactShadow(hdrp),
                 hdrp.name
             );
-            if ((RenderPipelineManager.currentPipeline as HDRenderPipeline).rayTracingSupported
+            if ((RenderPipelineManager.currentPipeline as HDRenderPipeline).rayTracingSupported 
                 && serialized.contactShadows.@override.boolValue)
             {
                 EditorGUI.indentLevel++;

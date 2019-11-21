@@ -71,8 +71,6 @@ namespace UnityEditor.Rendering.HighDefinition
             if (m_IntensityTexture != null)
                 RTHandles.Release(m_IntensityTexture);
 
-            m_EnableLuxIntensityMode = true;
-
             m_ReadBackTexture = null;
         }
 
@@ -116,8 +114,6 @@ namespace UnityEditor.Rendering.HighDefinition
                 GetUpperHemisphereLuxValue();
                 updateDefaultShadowTint = true;
             }
-
-            base.CommonSkySettingsGUI();
 
             if (isInAdvancedMode)
             {

@@ -123,7 +123,7 @@ namespace UnityEditor.Rendering.HighDefinition
             }
         }
 
-        // This scope is here mainly to keep pointLightHDType isolated 
+        // This scope is here mainly to keep pointLightHDType isolated
         public struct LightTypeEditionScope : System.IDisposable
         {
             public LightTypeEditionScope(Rect rect, GUIContent label, SerializedHDLight serialized)
@@ -138,7 +138,7 @@ namespace UnityEditor.Rendering.HighDefinition
                 EditorGUI.EndProperty();
             }
         }
-        
+
         //areaLightShape need to be accessed by its property to always report modification in the right way
         public AreaLightShape areaLightShape
         {
@@ -170,7 +170,7 @@ namespace UnityEditor.Rendering.HighDefinition
             }
         }
 
-        // This scope is here mainly to keep pointLightHDType and areaLightShapeProperty isolated 
+        // This scope is here mainly to keep pointLightHDType and areaLightShapeProperty isolated
         public struct AreaLightShapeEditionScope : System.IDisposable
         {
             public AreaLightShapeEditionScope(Rect rect, GUIContent label, SerializedHDLight serialized)
@@ -192,7 +192,7 @@ namespace UnityEditor.Rendering.HighDefinition
         {
             serializedObject = new SerializedObject(lightDatas);
             this.settings = settings;
-            
+
             using (var o = new PropertyFetcher<HDAdditionalLightData>(serializedObject))
             {
                 intensity = o.Find("m_Intensity");

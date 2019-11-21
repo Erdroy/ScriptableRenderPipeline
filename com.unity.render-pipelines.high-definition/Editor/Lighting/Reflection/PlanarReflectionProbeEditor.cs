@@ -119,7 +119,7 @@ namespace UnityEditor.Rendering.HighDefinition
 
             var previewWidth = k_PreviewHeight;
             var previewSize = new Rect(previewWidth, k_PreviewHeight + EditorGUIUtility.singleLineHeight + 2, 0, 0);
-            
+
             if (Event.current.type == EventType.Layout
                 || !firstDraw && Event.current.type == EventType.Repaint)
             {

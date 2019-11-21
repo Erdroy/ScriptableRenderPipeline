@@ -6,7 +6,7 @@ namespace UnityEditor.Rendering.HighDefinition
 {
     class HDSaveContext
     {
-        public bool updateMaterials; 
+        public bool updateMaterials;
     }
 
     [InitializeOnLoad]

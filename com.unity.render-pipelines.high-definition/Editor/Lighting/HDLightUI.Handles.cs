@@ -198,7 +198,7 @@ namespace UnityEditor.Rendering.HighDefinition
                     // Evaluate the half dimensions of the rectangular area light
                     float halfWidth = src.shapeWidth * 0.5f;
                     float halfHeight = src.shapeHeight * 0.5f;
-                    
+
                     // Evaluate the dimensions of the extended area light
                     float extendedWidth = Mathf.Tan(angle) * depth + halfWidth;
                     float extendedHeight = Mathf.Tan(angle) * depth + halfHeight;

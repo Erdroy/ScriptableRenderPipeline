@@ -196,6 +196,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Fixed an editor freeze when importing a diffusion profile asset from a unity package.
 - Fixed an exception when trying to reload a builtin resource.
 - Fixed the light type intensity unit reset when switching the light type.
+- Fixed compilation error related to define guards and CreateLayoutFromXrSdk()
 - Fixed documentation link on CustomPassVolume.
 - Fixed player build when HDRP is in the project but not assigned in the graphic settings.
 - Fixed an issue where ambient probe would be black for the first face of a baked reflection probe
@@ -210,6 +211,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Fixed Prefab override workflow issue in DensityVolume.
 - Fixed empty MoreOptions and moved AdvancedManipulation in a dedicated location for coherency in DensityVolume.
 - Fix light limit counts specified on the HDRP asset
+- Fixed Quality Settings for SSR, Contact Shadows and Ambient Occlusion volume components
 
 ### Changed
 - Color buffer pyramid is not allocated anymore if neither refraction nor distortion are enabled
@@ -247,6 +249,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Improved a bit the GC calls generated during the rendering.
 - Material update is now only triggered when the relevant settings are touched in the shader graph master nodes
 - Changed the way Sky Intensity (on Sky volume components) is handled. It's now a combo box where users can choose between Exposure, Multiplier or Lux (for HDRI sky only) instead of both multiplier and exposure being applied all the time. Added a new menu item to convert old profiles.
+- Change how method for specular occlusions is decided on inspector shader (Lit, LitTesselation, LayeredLit, LayeredLitTessellation)
+- Unlocked SSS, SSR, Motion Vectors and Distortion frame settings for reflections probes.
 
 ## [7.1.1] - 2019-09-05
 

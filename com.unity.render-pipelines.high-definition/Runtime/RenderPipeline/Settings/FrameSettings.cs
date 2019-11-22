@@ -246,7 +246,7 @@ namespace UnityEngine.Rendering.HighDefinition
     partial struct FrameSettings
     {
         /// <summary>Default FrameSettings for Camera renderer.</summary>
-        [Obsolete("Since 2020.1, use FrameSettings.NewDefaultCamera() instead.")]
+        [Obsolete("Since 2019.3, use FrameSettings.NewDefaultCamera() instead.")]
         internal static readonly FrameSettings defaultCamera = default;
         /// <summary>Default FrameSettings for Camera renderer.</summary>
         internal static FrameSettings NewDefaultCamera() => new FrameSettings()
@@ -315,7 +315,7 @@ namespace UnityEngine.Rendering.HighDefinition
             lodBias = 1,
         };
         /// <summary>Default FrameSettings for realtime ReflectionProbe/PlanarReflectionProbe renderer.</summary>
-        [Obsolete("Since 2020.1, use FrameSettings.NewDefaultRealtimeReflectionProbe() instead.")]
+        [Obsolete("Since 2019.3, use FrameSettings.NewDefaultRealtimeReflectionProbe() instead.")]
         internal static readonly FrameSettings defaultRealtimeReflectionProbe = default;
         /// <summary>Default FrameSettings for realtime ReflectionProbe/PlanarReflectionProbe renderer.</summary>
         internal static FrameSettings NewDefaultRealtimeReflectionProbe() => new FrameSettings()
@@ -368,7 +368,7 @@ namespace UnityEngine.Rendering.HighDefinition
             lodBias = 1,
         };
         /// <summary>Default FrameSettings for baked or custom ReflectionProbe renderer.</summary>
-        [Obsolete("Since 2020.1, use FrameSettings.NewDefaultCustomOrBakeReflectionProbe() instead.")]
+        [Obsolete("Since 2019.3, use FrameSettings.NewDefaultCustomOrBakeReflectionProbe() instead.")]
         internal static readonly FrameSettings defaultCustomOrBakeReflectionProbe = default;
         /// <summary>Default FrameSettings for baked or custom ReflectionProbe renderer.</summary>
         internal static FrameSettings NewDefaultCustomOrBakeReflectionProbe() => new FrameSettings()
@@ -565,10 +565,10 @@ namespace UnityEngine.Rendering.HighDefinition
             bool msaa = sanitizedFrameSettings.bitDatas[(int)FrameSettingsField.MSAA] &= renderPipelineSettings.supportMSAA && sanitizedFrameSettings.litShaderMode == LitShaderMode.Forward;
 
             // No recursive reflections
-            sanitizedFrameSettings.bitDatas[(int)FrameSettingsField.SSR] &= !reflection && renderPipelineSettings.supportSSR && !msaa && !preview;
+            sanitizedFrameSettings.bitDatas[(int)FrameSettingsField.SSR] &= renderPipelineSettings.supportSSR && !msaa && !preview;
             sanitizedFrameSettings.bitDatas[(int)FrameSettingsField.RoughRefraction] &= !preview;
             sanitizedFrameSettings.bitDatas[(int)FrameSettingsField.SSAO] &= renderPipelineSettings.supportSSAO && !preview;
-            sanitizedFrameSettings.bitDatas[(int)FrameSettingsField.SubsurfaceScattering] &= !reflection && renderPipelineSettings.supportSubsurfaceScattering;
+            sanitizedFrameSettings.bitDatas[(int)FrameSettingsField.SubsurfaceScattering] &= renderPipelineSettings.supportSubsurfaceScattering;
 
             // We must take care of the scene view fog flags in the editor
             bool atmosphericScattering = sanitizedFrameSettings.bitDatas[(int)FrameSettingsField.AtmosphericScattering] &= sceneViewFog && !preview;
@@ -585,13 +585,13 @@ namespace UnityEngine.Rendering.HighDefinition
 
             sanitizedFrameSettings.bitDatas[(int)FrameSettingsField.TransparentPrepass] &= renderPipelineSettings.supportTransparentDepthPrepass && !preview;
 
-            bool motionVector = sanitizedFrameSettings.bitDatas[(int)FrameSettingsField.MotionVectors] &= !reflection && renderPipelineSettings.supportMotionVectors && !preview;
+            bool motionVector = sanitizedFrameSettings.bitDatas[(int)FrameSettingsField.MotionVectors] &= renderPipelineSettings.supportMotionVectors && !preview;
 
             // Object motion vector are disabled if motion vector are disabled
             sanitizedFrameSettings.bitDatas[(int)FrameSettingsField.ObjectMotionVectors] &= motionVector && !preview;
             sanitizedFrameSettings.bitDatas[(int)FrameSettingsField.Decals] &= renderPipelineSettings.supportDecals && !preview;
             sanitizedFrameSettings.bitDatas[(int)FrameSettingsField.TransparentPostpass] &= renderPipelineSettings.supportTransparentDepthPostpass && !preview;
-            sanitizedFrameSettings.bitDatas[(int)FrameSettingsField.Distortion] &= !reflection && renderPipelineSettings.supportDistortion && !msaa && !preview;
+            sanitizedFrameSettings.bitDatas[(int)FrameSettingsField.Distortion] &= renderPipelineSettings.supportDistortion && !msaa && !preview;
             sanitizedFrameSettings.bitDatas[(int)FrameSettingsField.LowResTransparent] &= renderPipelineSettings.lowresTransparentSettings.enabled;
 
             bool async = sanitizedFrameSettings.bitDatas[(int)FrameSettingsField.AsyncCompute] &= SystemInfo.supportsAsyncCompute;

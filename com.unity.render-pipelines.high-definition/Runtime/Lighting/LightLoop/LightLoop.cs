@@ -2075,6 +2075,34 @@ namespace UnityEngine.Rendering.HighDefinition
                         if (ShaderConfig.s_AreaLights == 0 && (lightType == HDLightType.Area && (additionalData.areaLightShape == AreaLightShape.Rectangle || additionalData.areaLightShape == AreaLightShape.Tube)))
                             continue;
 
+                        // Evaluate the types that define the current light
+                        LightCategory lightCategory = LightCategory.Count;
+                        GPULightType gpuLightType = GPULightType.Point;
+                        LightVolumeType lightVolumeType = LightVolumeType.Count;
+                        HDRenderPipeline.EvaluateGPULightType(lightType, additionalData.spotLightShape, additionalData.areaLightShape, 
+                                                                ref lightCategory, ref gpuLightType, ref lightVolumeType);
+
+                        // Do NOT process lights beyond the specified limit!
+                        switch(lightCategory)
+                        {
+                            case LightCategory.Punctual:
+                                if (gpuLightType == GPULightType.Directional) // Our directional lights are "punctual"...
+                                {
+                                    if (directionalLightcount >= m_MaxDirectionalLightsOnScreen) continue;
+                                    directionalLightcount++;
+                                    break;
+                                }
+                                if (punctualLightcount >= m_MaxPunctualLightsOnScreen) continue;
+                                punctualLightcount++;
+                                break;
+                            case LightCategory.Area:
+                                if (areaLightCount >= m_MaxAreaLightsOnScreen) continue;
+                                areaLightCount++;
+                                break;
+                            default:
+                                break;
+                        }
+
                         // First we should evaluate the shadow information for this frame
                         additionalData.EvaluateShadowState(hdCamera, cullResults, hdCamera.frameSettings, lightIndex);
 
@@ -2084,13 +2112,6 @@ namespace UnityEngine.Rendering.HighDefinition
                             additionalData.ReserveShadowMap(camera, m_ShadowManager, m_ShadowInitParameters, light.screenRect);
                         }
 
-                        // Evaluate the types that define the current light
-                        LightCategory lightCategory = LightCategory.Count;
-                        GPULightType gpuLightType = GPULightType.Point;
-                        LightVolumeType lightVolumeType = LightVolumeType.Count;
-                        HDRenderPipeline.EvaluateGPULightType(lightType, additionalData.spotLightShape, additionalData.areaLightShape,
-                                                                ref lightCategory, ref gpuLightType, ref lightVolumeType);
-
                         if (hasDebugLightFilter
                             && !debugLightFilter.IsEnabledFor(gpuLightType, additionalData.spotLightShape))
                             continue;
@@ -2098,6 +2119,9 @@ namespace UnityEngine.Rendering.HighDefinition
                         // 5 bit (0x1F) light category, 5 bit (0x1F) GPULightType, 5 bit (0x1F) lightVolume, 1 bit for shadow casting, 16 bit index
                         m_SortKeys[sortCount++] = (uint)lightCategory << 27 | (uint)gpuLightType << 22 | (uint)lightVolumeType << 17 | (uint)lightIndex;
                     }
+
+                    // Code below will count the lights again, so reset all counters to 0.
+                    directionalLightcount = punctualLightcount = areaLightCount = 0;
 
                     CoreUnsafeUtils.QuickSort(m_SortKeys, 0, sortCount - 1); // Call our own quicksort instead of Array.Sort(sortKeys, 0, sortCount) so we don't allocate memory (note the SortCount-1 that is different from original call).
 
@@ -2133,20 +2157,6 @@ namespace UnityEngine.Rendering.HighDefinition
 
                         var light = cullResults.visibleLights[lightIndex];
                         var lightComponent = light.light;
-
-                        switch(lightCategory)
-                        {
-                            case LightCategory.Punctual:
-                                if (punctualLightcount >= m_MaxPunctualLightsOnScreen)
-                                    continue;
-                                break;
-                            case LightCategory.Area:
-                                if (areaLightCount >= m_MaxAreaLightsOnScreen)
-                                    continue;
-                                break;
-                            default:
-                                break;
-                        }
 
                         m_enableBakeShadowMask = m_enableBakeShadowMask || IsBakedShadowMaskLight(lightComponent);
 

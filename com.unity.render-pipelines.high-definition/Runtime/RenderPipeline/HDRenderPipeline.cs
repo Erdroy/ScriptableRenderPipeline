@@ -2375,6 +2375,11 @@ namespace UnityEngine.Rendering.HighDefinition
 
                 aovRequest.Execute(cmd, aovBuffers, RenderOutputProperties.From(hdCamera));
             }
+
+            // This is required so that all commands up to here are executed before EndCameraRendering is called for the user.
+            // Otherwise command would not be rendered in order.
+            renderContext.ExecuteCommandBuffer(cmd);
+            cmd.Clear();
         }
 
         struct BlitFinalCameraTextureParameters
@@ -4317,11 +4322,18 @@ namespace UnityEngine.Rendering.HighDefinition
             bool needDepthBuffer = false;
             Texture depthBuffer = null;
 
+            HDAdditionalCameraData acd = null;
+            hdCamera.camera.TryGetComponent<HDAdditionalCameraData>(out acd);
+
+            HDAdditionalCameraData.BufferAccessType externalAccess = new HDAdditionalCameraData.BufferAccessType();
+            if (acd != null)
+                externalAccess = acd.GetBufferAccess();
+
             // Figure out which client systems need which buffers
             // Only VFX systems for now
             VFXCameraBufferTypes neededVFXBuffers = VFXManager.IsCameraBufferNeeded(hdCamera.camera);
-            needNormalBuffer |= (neededVFXBuffers & VFXCameraBufferTypes.Normal) != 0;
-            needDepthBuffer |= (neededVFXBuffers & VFXCameraBufferTypes.Depth) != 0;
+            needNormalBuffer |= ((neededVFXBuffers & VFXCameraBufferTypes.Normal) != 0 || (externalAccess & HDAdditionalCameraData.BufferAccessType.Normal) != 0);
+            needDepthBuffer |= ((neededVFXBuffers & VFXCameraBufferTypes.Depth) != 0 || (externalAccess & HDAdditionalCameraData.BufferAccessType.Depth) != 0);
             if (hdCamera.frameSettings.IsEnabled(FrameSettingsField.RayTracing) && GetRayTracingState())
             {
                 needNormalBuffer = true;

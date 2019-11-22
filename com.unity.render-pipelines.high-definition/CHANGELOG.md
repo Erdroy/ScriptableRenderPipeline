@@ -35,6 +35,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Added debug setting to Render Pipeline Window to list the active XR views
 - Added a new refraction mode for the Lit shader (thin). Which is a box refraction with small thickness values
 - Added the code to support Barn Doors for Area Lights based on a shaderconfig option.
+- Added HDRPCameraBinder property binder for Visual Effect Graph
 - Added "Celestial Body" controls to the Directional Light
 - Added new parameters to the Physically Based Sky
 
@@ -152,6 +153,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Fixed a number of issues with Material Quality setting
 - Fixed the transparent Cull Mode option in HD unlit master node settings only visible if double sided is ticked.
 - Fixed an issue causing shadowed areas by contact shadows at the edge of far clip plane if contact shadow length is very close to far clip plane.
+- Fixed editing a scalable settings will edit all loaded asset in memory instead of targetted asset.
 - Fixed Planar reflection default viewer FOV
 - Fixed flickering issues when moving the mouse in the editor with ray tracing on.
 - Fixed the ShaderGraph main preview being black after switching to SSS in the master node settings
@@ -194,6 +196,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Fixed an editor freeze when importing a diffusion profile asset from a unity package.
 - Fixed an exception when trying to reload a builtin resource.
 - Fixed the light type intensity unit reset when switching the light type.
+- Fixed documentation link on CustomPassVolume.
+- Fixed player build when HDRP is in the project but not assigned in the graphic settings.
+- Fixed an issue where ambient probe would be black for the first face of a baked reflection probe
+- VFX: Fixed Missing Reference to Visual Effect Graph Runtime Assembly
+- Fixed an issue where rendering done by users in EndCameraRendering would be executed before the main render loop.
+- Fixed Prefab Override in main scope of Volume.
+- Fixed alignment issue in Presset of main scope of Volume.
+- Fixed persistence of ShowChromeGizmo and moved it to toolbar for coherency in ReflectionProbe and PlanarReflectionProbe.
+- Fixed Alignement issue in ReflectionProbe and PlanarReflectionProbe.
+- Fixed Prefab override workflow issue in ReflectionProbe and PlanarReflectionProbe.
+- Fixed empty MoreOptions and moved AdvancedManipulation in a dedicated location for coherency in ReflectionProbe and PlanarReflectionProbe.
+- Fixed Prefab override workflow issue in DensityVolume.
+- Fixed empty MoreOptions and moved AdvancedManipulation in a dedicated location for coherency in DensityVolume.
+- Fix light limit counts specified on the HDRP asset
 
 ### Changed
 - Color buffer pyramid is not allocated anymore if neither refraction nor distortion are enabled

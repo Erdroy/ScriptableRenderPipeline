@@ -507,12 +507,7 @@ IndirectLighting EvaluateBSDF_ScreenSpaceReflection(PositionInputs posInput,
 
     // TODO: this texture is sparse (mostly black). Can we avoid reading every texel? How about using Hi-S?
     float4 ssrLighting = LOAD_TEXTURE2D_X(_SsrLightingTexture, posInput.positionSS);
-    float prevExposureInvMultiplier = GetInversePreviousExposureMultiplier();
-
-#if SHADEROPTIONS_RAYTRACING
-    if (!_UseRayTracedReflections)
-#endif
-        ssrLighting.rgb *= prevExposureInvMultiplier;
+    InversePreExposeSsrLighting(ssrLighting);
 
     // Note: RGB is already premultiplied by A.
     // TODO: we should multiply all indirect lighting by the FGD value only ONCE.

@@ -4157,12 +4157,7 @@ IndirectLighting EvaluateBSDF_ScreenSpaceReflection(PositionInputs posInput,
 
     // TODO: this texture is sparse (mostly black). Can we avoid reading every texel? How about using Hi-S?
     float4 ssrLighting = LOAD_TEXTURE2D_X(_SsrLightingTexture, posInput.positionSS);
-    float prevExposureInvMultiplier = GetInversePreviousExposureMultiplier();
-
-#if SHADEROPTIONS_RAYTRACING
-    if (!_UseRayTracedReflections)
-#endif
-        ssrLighting.rgb *= prevExposureInvMultiplier;
+    InversePreExposeSsrLighting(ssrLighting);
 
     // For performance reasons, SSR doesn't allow us to be discriminating per lobe, ie wrt direction, roughness,
     // anisotropy, etc. 

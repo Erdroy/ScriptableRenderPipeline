@@ -925,7 +925,6 @@ Shader "HDRP/Lit"
             #pragma multi_compile _ DEBUG_DISPLAY
 
             #define SHADERPASS SHADERPASS_PATH_TRACING
-            #define SKIP_RASTERIZED_SHADOWS
 
             // This is just because it need to be defined, shadow maps are not used.
             #define SHADOW_LOW

@@ -144,6 +144,11 @@ namespace UnityEngine.Experimental.Rendering.Universal
                 }
             }
 
+            for (int i = 0; i < rendererFeatures.Count; ++i)
+            {
+                rendererFeatures[i].AddRenderPasses(this, ref renderingData);
+            }
+
             if (requireFinalBlitPass)
             {
                 m_FinalBlitPass.Setup(cameraTargetDescriptor, finalBlitSourceHandle);
